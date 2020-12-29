@@ -11,6 +11,9 @@ public struct SpellBook {
     /// Closure that has no results, but it passed a Data.
     public typealias DataClosure = (Data) -> Void
     
+    /// Closure that has no results, but it passed a String.
+    public typealias StringClosure = (String) -> Void
+    
     /// Closure that has no results, but it passed a NSImage.
     public typealias ImageClosure = (NSImage) -> Void
     
@@ -40,6 +43,13 @@ public extension SpellBook {
             
             nsdata.write(to: url, atomically: false)
         }
+    }
+    
+    /// Invokes SavePanel for given file type (default 'txt').  If user enters path, given string is saved to specified URL.
+    static func saveFile(string: String, type: String = "txt") {
+        let data = Data(string.utf8)
+        
+        SpellBook.saveFile(data: data, type: type)
     }
     
     /// Invokes SavePanel for JPEG images.  If user enters path, given image is saved to specified URL.
@@ -78,6 +88,15 @@ public extension SpellBook {
             guard let data = try? Data(contentsOf: url) else { return }
             
             block(data)
+       }
+    }
+
+    /// Invokes SavePanel for given file type (default 'txt').  If user selecta a file, closure is invoked with string from specified URL.
+    static func openFileString(type: String, block: @escaping StringClosure ) {
+        SpellBook.openFileData(type: type) { data in
+            let string = String(decoding: data, as: UTF8.self)
+            
+            block(string)
        }
     }
 
