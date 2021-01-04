@@ -1,6 +1,8 @@
 # CocoaSpellBook
 
-Useful tools for Cocoa Development by Steve Sheets.
+Swift Package of useful tools for Cocoa Development.
+
+https://github.com/magesteve/CocoaSpellBook
 
 ## Panel Magic
 
