@@ -3,7 +3,8 @@
 import Foundation
 import Cocoa
 
-public struct SpellBook {
+/// Abstract extension for name space of typealias & static functions.
+public struct CocoaSpellBook {
     
     /// Closure that has no results, but it passed a URL.
     public typealias URLClosure = (URL) -> Void
@@ -19,8 +20,9 @@ public struct SpellBook {
     
 }
 
+// MARK: Open/Save Panel Extensions
 
-public extension SpellBook {
+public extension CocoaSpellBook {
 
     /// Invokes SavePanel for given file type.  If user enters path, closure is invoked with specified URL.
     static func saveFileURL(type: String, block: @escaping URLClosure) {
@@ -38,7 +40,7 @@ public extension SpellBook {
 
     /// Invokes SavePanel for given file type.  If user enters path, given data is saved to specified URL.
     static func saveFile(data: Data, type: String) {
-        SpellBook.saveFileURL(type: type) { url in
+        CocoaSpellBook.saveFileURL(type: type) { url in
             let nsdata = data as NSData
             
             nsdata.write(to: url, atomically: false)
@@ -49,12 +51,12 @@ public extension SpellBook {
     static func saveFile(string: String, type: String = "txt") {
         let data = Data(string.utf8)
         
-        SpellBook.saveFile(data: data, type: type)
+        CocoaSpellBook.saveFile(data: data, type: type)
     }
     
     /// Invokes SavePanel for JPEG images.  If user enters path, given image is saved to specified URL.
     static func saveFile(image: NSImage) {
-        SpellBook.saveFileURL(type: "jpg") { url in
+        CocoaSpellBook.saveFileURL(type: "jpg") { url in
             guard let bits = image.representations.first as? NSBitmapImageRep,
                   let data = bits.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:]) else { return }
             
@@ -84,7 +86,7 @@ public extension SpellBook {
 
     /// Invokes SavePanel for given file type.  If user selecta a file, closure is invoked with data from specified URL.
     static func openFileData(type: String, block: @escaping DataClosure ) {
-        SpellBook.openFileURL(type: type) { url in
+        CocoaSpellBook.openFileURL(type: type) { url in
             guard let data = try? Data(contentsOf: url) else { return }
             
             block(data)
@@ -93,7 +95,7 @@ public extension SpellBook {
 
     /// Invokes SavePanel for given file type (default 'txt').  If user selecta a file, closure is invoked with string from specified URL.
     static func openFileString(type: String, block: @escaping StringClosure ) {
-        SpellBook.openFileData(type: type) { data in
+        CocoaSpellBook.openFileData(type: type) { data in
             let string = String(decoding: data, as: UTF8.self)
             
             block(string)
@@ -102,12 +104,39 @@ public extension SpellBook {
 
     /// Invokes SavePanel for "jpg" file type.  If user selecta a file, closure is invoked with image from specified URL.
     static func openFileImage(block: @escaping ImageClosure ) {
-        SpellBook.openFileURL(type: "jpg") { url in
+        CocoaSpellBook.openFileURL(type: "jpg") { url in
             guard let image = NSImage(contentsOf: url) else { return }
             
             block(image)
        }
     }
 
+}
+
+// MARK: NSApp Extensions
+
+public extension CocoaSpellBook {
+    
+    /// Given string, open Safari with that Link
+    /// - Parameter link: String text to open.
+    static func openURL(_ link: String) {
+        guard !link.isEmpty, let aURL = URL(string: link) else { return }
+        
+        NSWorkspace.shared.open(aURL)
+    }
+
+    /// Given string, open bundled file with that name
+    /// - Parameter link: String File to open.
+    static func openBundledFile(_ name: String) {
+       guard !name.isEmpty, let aPath = Bundle.main.path(forResource: name, ofType: nil) else { return }
+        
+       NSWorkspace.shared.openFile(aPath, withApplication: nil)
+    }
+    
+    /// Given string, open Help wtih that section
+    /// - Parameter link: String Help to open.
+    static func openHelp(_ name: String? = nil) {
+        NSApplication.shared.showHelp(nil)
+    }
 }
 
