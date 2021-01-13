@@ -1,22 +1,25 @@
-// PanelSpells.swift
+//
+//  CocoaSpells.swift
+//  CocoaSpells
+//
+//  Created by Steve Sheets on 1/10/21.
+//  Copyright © 2021 Steve Sheets. All rights reserved.
 
 import Foundation
 import Cocoa
+import SwiftSpellBook
 
 /// Abstract extension for name space of typealias & static functions.
 public struct CocoaSpellBook {
     
-    /// Closure that has no results, but it passed a URL.
-    public typealias URLClosure = (URL) -> Void
-    
-    /// Closure that has no results, but it passed a Data.
-    public typealias DataClosure = (Data) -> Void
-    
-    /// Closure that has no results, but it passed a String.
-    public typealias StringClosure = (String) -> Void
-    
+}
+
+// MARK: Closure Typealiases
+
+public extension CocoaSpellBook {
+
     /// Closure that has no results, but it passed a NSImage.
-    public typealias ImageClosure = (NSImage) -> Void
+    typealias ImageClosure = (NSImage) -> Void
     
 }
 
@@ -25,7 +28,7 @@ public struct CocoaSpellBook {
 public extension CocoaSpellBook {
 
     /// Invokes SavePanel for given file type.  If user enters path, closure is invoked with specified URL.
-    static func saveFileURL(type: String, block: @escaping URLClosure) {
+    static func saveFileURL(type: String, block: @escaping SwiftSpellBook.URLClosure) {
         let savePanel = NSSavePanel()
         
         savePanel.allowedFileTypes = [type]
@@ -67,7 +70,7 @@ public extension CocoaSpellBook {
     }
 
     /// Invokes SavePanel for given file type.  If user selecta a file, closure is invoked with specified URL.
-    static func openFileURL(type: String, block: @escaping URLClosure ) {
+    static func openFileURL(type: String, block: @escaping SwiftSpellBook.URLClosure ) {
         let openPanel = NSOpenPanel()
         
         openPanel.allowsMultipleSelection = false
@@ -85,7 +88,7 @@ public extension CocoaSpellBook {
     }
 
     /// Invokes SavePanel for given file type.  If user selecta a file, closure is invoked with data from specified URL.
-    static func openFileData(type: String, block: @escaping DataClosure ) {
+    static func openFileData(type: String, block: @escaping SwiftSpellBook.DataClosure ) {
         CocoaSpellBook.openFileURL(type: type) { url in
             guard let data = try? Data(contentsOf: url) else { return }
             
@@ -94,7 +97,7 @@ public extension CocoaSpellBook {
     }
 
     /// Invokes SavePanel for given file type (default 'txt').  If user selecta a file, closure is invoked with string from specified URL.
-    static func openFileString(type: String, block: @escaping StringClosure ) {
+    static func openFileString(type: String, block: @escaping SwiftSpellBook.StringClosure ) {
         CocoaSpellBook.openFileData(type: type) { data in
             let string = String(decoding: data, as: UTF8.self)
             
