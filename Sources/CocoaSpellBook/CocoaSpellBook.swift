@@ -21,6 +21,46 @@ public extension CocoaSpellBook {
     /// Closure that has no results, but it passed a NSImage.
     typealias ImageClosure = (NSImage) -> Void
     
+    /// Closure that has no parameters, but returns a NSImage.
+    typealias imageSourceClosure = () -> NSImage
+    
+}
+
+// MARK: - Info.plist Constants
+
+public extension CocoaSpellBook {
+    
+    /// App Name (lazy)
+    static var appName: String = {
+        if let text = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
+            return text
+        }
+
+        if let text = Bundle.main.infoDictionary?["CFBundleName"] as? String {
+            return text
+        }
+        
+        return ""
+    }()
+    
+    /// App Version (lazy)
+    static var appVersion: String = {
+        guard let text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            return ""
+        }
+
+        return text
+    }()
+    
+    /// App Copyright (lazy)
+    static var appCopyright: String = {
+        guard let text = Bundle.main.infoDictionary?["NSHumanReadableCopyright"] as? String else {
+            return ""
+        }
+        
+        return text
+    }()
+
 }
 
 // MARK: Open/Save Panel Extensions
