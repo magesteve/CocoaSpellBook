@@ -181,5 +181,29 @@ public extension CocoaSpellBook {
     static func openHelp(_ name: String? = nil) {
         NSApplication.shared.showHelp(nil)
     }
+    
 }
 
+// MARK: UI Extensions
+
+public extension CocoaSpellBook {
+    
+    static func modal(window: NSWindow, okAction: SwiftSpellBook.SimpleClosure? = nil, cancelAction: SwiftSpellBook.SimpleClosure? = nil) {
+        window.center()
+
+        let m = NSApplication.shared.runModal(for: window)
+        
+        window.orderOut(nil)
+
+        if m == .OK {
+            if let block = okAction {
+                block()
+            }
+        }
+        else if m == .cancel {
+            if let block = cancelAction {
+                block()
+            }
+        }
+    }
+}
