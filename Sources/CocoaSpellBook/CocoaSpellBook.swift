@@ -184,6 +184,19 @@ public extension CocoaSpellBook {
     
 }
 
+// MARK: NSDocumentController Extensions
+
+public extension CocoaSpellBook {
+    
+    static func isDocumentEditor() -> Bool {
+        let dc = NSDocumentController.shared
+        
+        guard let _ = dc.defaultType else { return false }
+    
+        return true
+    }
+}
+
 // MARK: UI Extensions
 
 public extension CocoaSpellBook {
