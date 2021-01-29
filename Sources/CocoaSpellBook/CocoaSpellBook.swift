@@ -26,6 +26,28 @@ public extension CocoaSpellBook {
     
 }
 
+// MARK: Constants
+
+public extension CocoaSpellBook {
+
+    // MARK: Phrases
+
+    /// Human Readable phrase "OK"
+    static let okPhrase = NSLocalizedString("OK", comment: "Standard OK word")
+
+    /// Human Readable phrase "Cancel"
+    static let cancelPhrase = NSLocalizedString("Cancel", comment: "Standard Cancel word")
+
+    /// Human Readable phrase "Yes"
+    static let yesPhrase = NSLocalizedString("Yes", comment: "Standard Yes word")
+
+    /// Human Readable phrase "No""
+    static let noPhrase = NSLocalizedString("No", comment: "Standard No word")
+
+    /// Human Readable phrase "Are you sure you wish to do this?"
+    static let areYouSurePhrase = NSLocalizedString("Are you sure you wish to do this?", comment: "Standard question to verify are you sure")
+}
+
 // MARK: - Info.plist Constants
 
 public extension CocoaSpellBook {
@@ -180,6 +202,10 @@ public extension CocoaSpellBook {
     /// - Parameter link: String Help to open.
     static func openHelp(_ name: String? = nil) {
         NSApplication.shared.showHelp(nil)
+
+        guard let name = name, name.isNotEmpty() else { return }
+        
+         NSHelpManager.shared.find(name, inBook: nil)
     }
     
 }
@@ -216,6 +242,7 @@ public extension CocoaSpellBook {
 
 public extension CocoaSpellBook {
     
+    /// Run a window modally,. Depending if Ok or Cancel is pressed, the associated block is executed.
     static func modal(window: NSWindow, okAction: SwiftSpellBook.SimpleClosure? = nil, cancelAction: SwiftSpellBook.SimpleClosure? = nil) {
         window.center()
 
@@ -235,3 +262,72 @@ public extension CocoaSpellBook {
         }
     }
 }
+
+// MARK: Alerts
+
+public extension CocoaSpellBook {
+
+    /// Alert for asking question. With Yes/No response expected
+    /// - Parameters:
+    ///   - text: String main text to display
+    ///   - info: Optional String for info text
+    ///   - iconName: Optional String for name of icon used
+    ///   - critical: critical description
+    ///   - ok: Optional String for OK button title
+    static func standardMessage(_ text: String, info: String? = nil, iconName: String? = nil, critical:  Bool = false, okName: String = CocoaSpellBook.okPhrase) {
+        let alert = NSAlert()
+        alert.messageText = text
+        if let info = info {
+            alert.informativeText = info
+        }
+        if let iconName = iconName {
+            if let icon = NSImage(named: iconName) {
+                alert.icon = icon
+            }
+        }
+        if critical {
+            alert.alertStyle = .critical
+        }
+        alert.addButton(withTitle: okName)
+        
+        _ = alert.runModal()
+    }
+
+    /// Alert for asking question. With Yes/No response expected
+    /// - Parameters:
+    ///   - text: String main text to display
+    ///   - info: Optional String for info text
+    ///   - iconName: Optional String for name of icon used
+    ///   - critical: critical description
+    ///   - ok: Optional String for OK button title
+    ///   - cancel: Optional String for Cancel button title
+    /// - Returns: Bool true is user hit OK
+    static func standardOKCancel(_ text: String, info: String? = nil, iconName: String? = nil, critical:  Bool = false, okName: String = CocoaSpellBook.okPhrase, cancelName: String = CocoaSpellBook.cancelPhrase) -> Bool {
+        let alert = NSAlert()
+        alert.messageText = text
+        if let info = info {
+            alert.informativeText = info
+        }
+        if let iconName = iconName {
+            if let icon = NSImage(named: iconName) {
+                alert.icon = icon
+            }
+        }
+        if critical {
+            alert.alertStyle = .critical
+        }
+        alert.addButton(withTitle: okName)
+        alert.addButton(withTitle: cancelName)
+        
+        return alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    /// Alert confirming you are sure. With Yes/No response expected
+    /// - Parameter info: Optional String with info to add
+    /// - Returns: Bool True if user selected yes
+    static func standardAreYouSureMessage(info: String? = nil) -> Bool {
+        return standardOKCancel(CocoaSpellBook.areYouSurePhrase, info: info, okName: CocoaSpellBook.yesPhrase, cancelName: CocoaSpellBook.noPhrase)
+
+    }
+}
+
