@@ -188,12 +188,27 @@ public extension CocoaSpellBook {
 
 public extension CocoaSpellBook {
     
+    /// Is the app designed for document editors
     static func isDocumentEditor() -> Bool {
         let dc = NSDocumentController.shared
         
         guard let _ = dc.defaultType else { return false }
     
         return true
+    }
+    
+    /// New Document displayed
+    static func OpenNewDoc() {
+        let dc = NSDocumentController.shared
+
+        dc.newDocument(nil)
+    }
+
+    /// Open Document displayed
+    static func openDoc() {
+        let dc = NSDocumentController.shared
+
+        dc.openDocument(nil)
     }
 }
 
