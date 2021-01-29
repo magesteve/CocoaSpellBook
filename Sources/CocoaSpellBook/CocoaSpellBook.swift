@@ -198,7 +198,7 @@ public extension CocoaSpellBook {
     }
     
     /// New Document displayed
-    static func OpenNewDoc() {
+    static func newDoc() {
         let dc = NSDocumentController.shared
 
         dc.newDocument(nil)
