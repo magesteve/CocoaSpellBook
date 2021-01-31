@@ -46,12 +46,9 @@ public extension CocoaSpellBook {
 
     /// Human Readable phrase "Are you sure you wish to do this?"
     static let areYouSurePhrase = NSLocalizedString("Are you sure you wish to do this?", comment: "Standard question to verify are you sure")
-}
-
-// MARK: - Info.plist Constants
-
-public extension CocoaSpellBook {
     
+    // MARK: - Info.plist Constants
+
     /// App Name (lazy)
     static var appName: String = {
         if let text = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
@@ -214,6 +211,17 @@ public extension CocoaSpellBook {
 
 public extension CocoaSpellBook {
     
+    // MARK: Static Variable Closures
+    
+    /// Closure for newDoc, default version invokes standardNewDoc()
+    static var newDocAction: SwiftSpellBook.SimpleClosure = { CocoaSpellBook.standardNewDoc() }
+
+    /// Closure for openDoc, default version invokes standardOpenDoc()
+    static var openDocAction: SwiftSpellBook.SimpleClosure = { CocoaSpellBook.standardOpenDoc() }
+
+    
+    // MARK: Static Functions
+    
     /// Is the app designed for document editors
     static func isDocumentEditor() -> Bool {
         let dc = NSDocumentController.shared
@@ -224,24 +232,37 @@ public extension CocoaSpellBook {
     }
     
     /// New Document displayed
-    static func newDoc() {
+    /// Standard New Document Display
+    static func standardNewDoc() {
         let dc = NSDocumentController.shared
 
         dc.newDocument(nil)
     }
 
-    /// Open Document displayed
-    static func openDoc() {
+    /// New Document displayed
+    /// Standard New Document Display
+    static func newDoc() {
+        newDocAction()
+    }
+    
+    /// Standard Open Document displayed
+    static func standardOpenDoc() {
         let dc = NSDocumentController.shared
 
         dc.openDocument(nil)
     }
+    
+    /// Open Document displayed
+    static func openDoc() {
+        openDocAction()
+    }
+    
 }
 
-// MARK: UI Extensions
+// MARK: Alerts & Modals
 
 public extension CocoaSpellBook {
-    
+
     /// Run a window modally,. Depending if Ok or Cancel is pressed, the associated block is executed.
     static func modal(window: NSWindow, okAction: SwiftSpellBook.SimpleClosure? = nil, cancelAction: SwiftSpellBook.SimpleClosure? = nil) {
         window.center()
@@ -261,11 +282,6 @@ public extension CocoaSpellBook {
             }
         }
     }
-}
-
-// MARK: Alerts
-
-public extension CocoaSpellBook {
 
     /// Alert for asking question. With Yes/No response expected
     /// - Parameters:
