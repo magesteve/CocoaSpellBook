@@ -24,6 +24,9 @@ public extension CocoaSpellBook {
     /// Closure that has no parameters, but returns a NSImage.
     typealias imageSourceClosure = () -> NSImage
     
+    /// Closure that has no parameters, but returns a NSViewController.
+    typealias viewControllerSourceClosure = () -> NSViewController
+    
 }
 
 // MARK: Constants
