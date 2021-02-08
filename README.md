@@ -54,6 +54,10 @@ Extensions to the abstract structure CocoaSpellBook providing NSDocumentControll
 
 Extensions to the abstract structure CocoaSpellBook to provide standard Alerts (message, yes/no, Are you sure) and processing of modal windows.
 
+### SpellColorBackgroundView Magic
+
+Custom NSView subclass SpellColorBackgroundView fills the view with either  with either specified NSColor, or using the Aqua safe colors controlBackgroundColor or unemphasizedSelectedContentBackgroundColor. The important fields are Inspectable by Interface Builder.
+
 ## License
 
 CocoaSpellBook is available as open source under the terms of the [MIT](https://github.com/magesteve/CocoaSpellBook/blob/main/LICENSE) License.
