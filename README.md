@@ -6,7 +6,7 @@
 [![SPM](https://img.shields.io/badge/SPM-Compatible-blue)](https://swift.org/package-manager)
 [![MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Swift Package of useful tools for Cocoa Development.
+Swift Package of useful tools for Macintosh App development (Cocoa).
 
 ## Installation
 
