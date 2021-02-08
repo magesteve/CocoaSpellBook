@@ -17,16 +17,14 @@ public struct CocoaSpellBook {
 // MARK: Closure Typealiases
 
 public extension CocoaSpellBook {
-
     /// Closure that has no results, but it passed a NSImage.
     typealias ImageClosure = (NSImage) -> Void
-    
+
     /// Closure that has no parameters, but returns a NSImage.
     typealias imageSourceClosure = () -> NSImage
-    
+
     /// Closure that has no parameters, but returns a NSViewController.
     typealias viewControllerSourceClosure = () -> NSViewController
-    
 }
 
 // MARK: Constants
@@ -203,7 +201,7 @@ public extension CocoaSpellBook {
     static func openHelp(_ name: String? = nil) {
         NSApplication.shared.showHelp(nil)
 
-        guard let name = name, name.isNotEmpty() else { return }
+        guard let name = name, name.isNotEmpty else { return }
         
          NSHelpManager.shared.find(name, inBook: nil)
     }
