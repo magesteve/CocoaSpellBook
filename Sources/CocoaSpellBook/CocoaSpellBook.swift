@@ -157,7 +157,7 @@ public extension CocoaSpellBook {
     }
 
     /// Invokes SavePanel for given file type (default 'txt').  If user selecta a file, closure is invoked with string from specified URL.
-    static func openFileString(type: String, block: @escaping SwiftSpellBook.StringClosure ) {
+    static func openFileString(type: String = "txt", block: @escaping SwiftSpellBook.StringClosure ) {
         CocoaSpellBook.openFileData(type: type) { data in
             let string = String(decoding: data, as: UTF8.self)
             
