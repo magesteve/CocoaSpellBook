@@ -6,7 +6,7 @@
 [![SPM](https://img.shields.io/badge/SPM-Compatible-blue)](https://swift.org/package-manager)
 [![MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Swift Package of useful tools for Cocoa Development.
+Swift Package of useful tools for Macintosh App development (Cocoa).
 
 ## Installation
 
@@ -57,6 +57,10 @@ Extensions to the abstract structure CocoaSpellBook to provide standard Alerts (
 ### SpellColorBackgroundView Magic
 
 Custom NSView subclass SpellColorBackgroundView fills the view with either  with either specified NSColor, or using the Aqua safe colors controlBackgroundColor or unemphasizedSelectedContentBackgroundColor. The important fields are Inspectable by Interface Builder.
+
+## Demo App
+
+Sample code using this SpellBook can be found in the open-source Cocoa App [CocoaGrimoire](https://github.com/magesteve/CocoaGrimoire). Other SpellBooks by the author are also demonstrated there.
 
 ## License
 
