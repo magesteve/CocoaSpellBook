@@ -191,9 +191,9 @@ public extension CocoaSpellBook {
     /// Given string, open bundled file with that name
     /// - Parameter link: String File to open.
     static func openBundledFile(_ name: String) {
-       guard !name.isEmpty, let aPath = Bundle.main.path(forResource: name, ofType: nil) else { return }
+        guard !name.isEmpty, let aURL = Bundle.main.url(forResource: name, withExtension: "") else { return }
         
-       NSWorkspace.shared.openFile(aPath, withApplication: nil)
+        NSWorkspace.shared.open(aURL)
     }
     
     /// Given string, open Help wtih that section
