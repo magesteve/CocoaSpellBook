@@ -9,65 +9,6 @@ import Foundation
 import Cocoa
 import SwiftSpellBook
 
-// MARK: - Protocols
-
-/// Protocol to support having actions.
-///
-/// Types that support SlamActionable manage a closure that attempts some action, with an utility function to invoke the closure. It is comon to use this protocol on Button-like views.
-public protocol SlamActionable {
-
-    // MARK: - Required Properties
-    
-    /// Optional Pressed button action closure.
-    var slamActionClosure: SwiftSpellBook.SimpleClosure? { get set }
-    
-}
-
-/// Protocol to support that can input text
-///
-/// Types that support SlamTextInputable are visible objects that support having a closure to invoke when the string value is changed.  It is comon to use this protocol on views like NSText or NSTextField.
-public protocol SlamTextInputable {
-
-    // MARK: - Required Properties
-
-    // state of text
-    var slamTextState: String { get }
-
-    /// Optional text change event
-    var slamTextChangedEvent: SwiftSpellBook.StringClosure? { get set }
-
-}
-
-/// Protocol to support that can input integer value
-///
-/// Types that support SlamIntInputable are visible objects that support having a closure to invoke when the string value is changed.  It is comon to use this protocol on views like NSStepper.
-public protocol SlamIntInputable {
-
-    // MARK: - Required Properties
-
-    // state of int
-    var slamIntState: Int { get }
-
-    /// Optional int change event
-    var slamIntChangedEvent: SwiftSpellBook.IntClosure? { get set }
-
-}
-
-/// Protocol to support that can input Bool value
-///
-/// Types that support SlamSwitchable are visible objects that support having a closure to invoke when the bool value is changed.  It is comon to use this protocol on views like NSSwitch & NSCheckBox.
-public protocol SlamSwitchable {
-
-    // MARK: Required Properties
-    
-    // state of flag
-    var slamSwitchState: Bool { get }
-
-    /// Optional switch change event
-    var slamSwitchChangedEvent: SwiftSpellBook.BoolClosure? { get set }
-
-}
-
 // MARK: - Structure
 /// Abstract extension for name space of typealias & static functions.
 public struct CocoaSpellBook {

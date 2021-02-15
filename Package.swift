@@ -12,7 +12,7 @@ let package = Package(
             targets: ["CocoaSpellBook"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/magesteve/SwiftSpellBook.git", from: "1.0.0"),
+        .package(url: "https://github.com/magesteve/SwiftSpellBook.git", from: "1.0.11"),
     ],
     targets: [
         .target(
