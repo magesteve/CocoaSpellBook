@@ -11,11 +11,11 @@ import SwiftSpellBook
 
 import Foundation
 
-// MARK: Extension
+// MARK: - Extension
 
 public extension NSViewController {
 
-    // MARK: IBAction Functions
+    // MARK: - IBAction Functions
 
     /// Action to dismiss Modal with OK condition
     /// - Parameter sender: Object that invoked the function

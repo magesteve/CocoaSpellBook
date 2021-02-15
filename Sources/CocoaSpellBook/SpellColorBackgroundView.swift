@@ -23,7 +23,7 @@ public class SpellColorBackgroundView: NSView {
     /// Optional Color to Draw in background (using unemphasizedSelectedContentBackgroundColor)
     @IBInspectable public var darkBackground: Bool = false
 
-// MARK: Lifecyle
+// MARK: - Lifecyle
     
     override public func draw(_ dirtyRect: NSRect) {
         if let color = colorBackground {

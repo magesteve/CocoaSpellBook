@@ -9,12 +9,72 @@ import Foundation
 import Cocoa
 import SwiftSpellBook
 
+// MARK: - Protocols
+
+/// Protocol to support having actions.
+///
+/// Types that support SlamActionable manage a closure that attempts some action, with an utility function to invoke the closure. It is comon to use this protocol on Button-like views.
+public protocol SlamActionable {
+
+    // MARK: - Required Properties
+    
+    /// Optional Pressed button action closure.
+    var slamActionClosure: SwiftSpellBook.SimpleClosure? { get set }
+    
+}
+
+/// Protocol to support that can input text
+///
+/// Types that support SlamTextInputable are visible objects that support having a closure to invoke when the string value is changed.  It is comon to use this protocol on views like NSText or NSTextField.
+public protocol SlamTextInputable {
+
+    // MARK: - Required Properties
+
+    // state of text
+    var slamTextState: String { get }
+
+    /// Optional text change event
+    var slamTextChangedEvent: SwiftSpellBook.StringClosure? { get set }
+
+}
+
+/// Protocol to support that can input integer value
+///
+/// Types that support SlamIntInputable are visible objects that support having a closure to invoke when the string value is changed.  It is comon to use this protocol on views like NSStepper.
+public protocol SlamIntInputable {
+
+    // MARK: - Required Properties
+
+    // state of int
+    var slamIntState: Int { get }
+
+    /// Optional int change event
+    var slamIntChangedEvent: SwiftSpellBook.IntClosure? { get set }
+
+}
+
+/// Protocol to support that can input Bool value
+///
+/// Types that support SlamSwitchable are visible objects that support having a closure to invoke when the bool value is changed.  It is comon to use this protocol on views like NSSwitch & NSCheckBox.
+public protocol SlamSwitchable {
+
+    // MARK: Required Properties
+    
+    // state of flag
+    var slamSwitchState: Bool { get }
+
+    /// Optional switch change event
+    var slamSwitchChangedEvent: SwiftSpellBook.BoolClosure? { get set }
+
+}
+
+// MARK: - Structure
 /// Abstract extension for name space of typealias & static functions.
 public struct CocoaSpellBook {
     
 }
 
-// MARK: Closure Typealiases
+// MARK: - Closure Typealiases
 
 public extension CocoaSpellBook {
     /// Closure that has no results, but it passed a NSImage.
@@ -23,15 +83,18 @@ public extension CocoaSpellBook {
     /// Closure that has no parameters, but returns a NSImage.
     typealias imageSourceClosure = () -> NSImage
 
+    /// Closure that has no results, but it passed a NSViewController.
+    typealias viewControllerClosure = (NSViewController) -> Void
+
     /// Closure that has no parameters, but returns a NSViewController.
     typealias viewControllerSourceClosure = () -> NSViewController
 }
 
-// MARK: Constants
+// MARK: - Constants
 
 public extension CocoaSpellBook {
 
-    // MARK: Phrases
+    // MARK: - Phrases
 
     /// Human Readable phrase "OK"
     static let okPhrase = NSLocalizedString("OK", comment: "Standard OK word")
@@ -44,6 +107,12 @@ public extension CocoaSpellBook {
 
     /// Human Readable phrase "No""
     static let noPhrase = NSLocalizedString("No", comment: "Standard No word")
+
+    /// Human Readable phrase "True"
+    static let truePhrase = NSLocalizedString("True", comment: "Standard True word")
+
+    /// Human Readable phrase "False""
+    static let falsePhrase = NSLocalizedString("False", comment: "Standard False word")
 
     /// Human Readable phrase "Are you sure you wish to do this?"
     static let areYouSurePhrase = NSLocalizedString("Are you sure you wish to do this?", comment: "Standard question to verify are you sure")
@@ -83,7 +152,7 @@ public extension CocoaSpellBook {
 
 }
 
-// MARK: Open/Save Panel Extensions
+// MARK: - Open/Save Panel Extensions
 
 public extension CocoaSpellBook {
 
@@ -176,7 +245,7 @@ public extension CocoaSpellBook {
 
 }
 
-// MARK: NSApp Extensions
+// MARK: - NSApp Extensions
 
 public extension CocoaSpellBook {
     
@@ -208,11 +277,11 @@ public extension CocoaSpellBook {
     
 }
 
-// MARK: NSDocumentController Extensions
+// MARK: - NSDocumentController Extensions
 
 public extension CocoaSpellBook {
     
-    // MARK: Static Variable Closures
+    // MARK: - Static Variable Closures
     
     /// Closure for newDoc, default version invokes standardNewDoc()
     static var newDocAction: SwiftSpellBook.SimpleClosure = { CocoaSpellBook.standardNewDoc() }
@@ -221,7 +290,7 @@ public extension CocoaSpellBook {
     static var openDocAction: SwiftSpellBook.SimpleClosure = { CocoaSpellBook.standardOpenDoc() }
 
     
-    // MARK: Static Functions
+    // MARK: - Static Functions
     
     /// Is the app designed for document editors
     static func isDocumentEditor() -> Bool {
@@ -260,7 +329,7 @@ public extension CocoaSpellBook {
     
 }
 
-// MARK: Alerts & Modals
+// MARK: - Alerts & Modals
 
 public extension CocoaSpellBook {
 
@@ -346,5 +415,73 @@ public extension CocoaSpellBook {
         return standardOKCancel(CocoaSpellBook.areYouSurePhrase, info: info, okName: CocoaSpellBook.yesPhrase, cancelName: CocoaSpellBook.noPhrase)
 
     }
+}
+
+// MARK: - Extensions
+
+// Extenion to Bool
+public extension Bool {
+    
+    /// Human Readable conversion of Bool to Yes/No
+    var hrYesNo: String { self ? CocoaSpellBook.yesPhrase : CocoaSpellBook.noPhrase}
+
+    /// Human Readable conversion of Bool to True/False
+    var hrTrueFalse: String { self ? CocoaSpellBook.truePhrase : CocoaSpellBook.falsePhrase}
+}
+
+// Extension to SlamActionable
+public extension SlamActionable {
+    
+    // MARK: - Public Functions
+    
+    /// Invoke Closure Action
+    func slamPerformAction() {
+        if let block = slamActionClosure {
+            block()
+        }
+    }
+
+}
+
+// Extension to SlamTextInputable
+public extension SlamTextInputable {
+    
+    // MARK: Public Functions
+
+   /// Invoke text changed
+    func slamTextChangedAction() {
+        if let block = slamTextChangedEvent {
+            block(slamTextState)
+        }
+    }
+
+}
+
+// Extension to SlamIntInputable
+public extension SlamIntInputable {
+    
+    // MARK: Public Functions
+
+   /// Invoke Int changed
+    func slamIntChangedAction() {
+        if let block = slamIntChangedEvent {
+            block(slamIntState)
+        }
+    }
+
+}
+
+// Extension to SlamSwitchable
+public extension SlamSwitchable {
+    
+    // MARK: Public Functions
+
+   /// Invoke switch changed
+    func slamSwitchChangedAction() {
+        if let block = slamSwitchChangedEvent {
+            block(slamSwitchState)
+        }
+    }
+
 }
 
