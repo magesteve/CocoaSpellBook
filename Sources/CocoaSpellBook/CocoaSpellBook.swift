@@ -358,7 +358,7 @@ public extension CocoaSpellBook {
     }
 }
 
-// MARK: - Extensions
+// MARK: - Bool Extensions
 
 // Extenion to Bool
 public extension Bool {
