@@ -358,15 +358,3 @@ public extension CocoaSpellBook {
     }
 }
 
-// MARK: - Bool Extensions
-
-// Extenion to Bool
-public extension Bool {
-    
-    /// Human Readable conversion of Bool to Yes/No
-    var hrYesNo: String { self ? CocoaSpellBook.yesPhrase : CocoaSpellBook.noPhrase}
-
-    /// Human Readable conversion of Bool to True/False
-    var hrTrueFalse: String { self ? CocoaSpellBook.truePhrase : CocoaSpellBook.falsePhrase}
-}
-
