@@ -139,15 +139,15 @@ public extension CocoaSpellBook {
         }
     }
 
-    /// Invokes SavePanel for given file type.  If user selecta a file, closure is invoked with specified URL.
-    static func openFileURL(type: String, block: @escaping SwiftSpellBook.URLClosure ) {
+    /// Invokes OpenPanel for given file type.  If user selecta a file, closure is invoked with specified URL.
+    static func openFileURL(types: [String], block: @escaping SwiftSpellBook.URLClosure ) {
         let openPanel = NSOpenPanel()
         
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
         openPanel.canCreateDirectories = false
         openPanel.canChooseFiles = true
-        openPanel.allowedFileTypes = [type]
+        openPanel.allowedFileTypes = types
         
         openPanel.begin { result in
             guard result.rawValue == NSApplication.ModalResponse.OK.rawValue,
@@ -156,8 +156,13 @@ public extension CocoaSpellBook {
             block(url)
         }
     }
+    
+    /// Invokes OpenPanel for given file type.  If user selecta a file, closure is invoked with specified URL.
+    static func openFileURL(type: String, block: @escaping SwiftSpellBook.URLClosure ) {
+        CocoaSpellBook.openFileURL(types: [type], block: block)
+    }
 
-    /// Invokes SavePanel for given file type.  If user selecta a file, closure is invoked with data from specified URL.
+    /// Invokes OpenPanel for given file type.  If user selecta a file, closure is invoked with data from specified URL.
     static func openFileData(type: String, block: @escaping SwiftSpellBook.DataClosure ) {
         CocoaSpellBook.openFileURL(type: type) { url in
             guard let data = try? Data(contentsOf: url) else { return }
@@ -166,7 +171,7 @@ public extension CocoaSpellBook {
        }
     }
 
-    /// Invokes SavePanel for given file type (default 'txt').  If user selecta a file, closure is invoked with string from specified URL.
+    /// Invokes OpenPanel for given file type (default 'txt').  If user selecta a file, closure is invoked with string from specified URL.
     static func openFileString(type: String = "txt", block: @escaping SwiftSpellBook.StringClosure ) {
         CocoaSpellBook.openFileData(type: type) { data in
             let string = String(decoding: data, as: UTF8.self)
@@ -175,12 +180,30 @@ public extension CocoaSpellBook {
        }
     }
 
-    /// Invokes SavePanel for "jpg" file type.  If user selecta a file, closure is invoked with image from specified URL.
+    /// Invokes OpenPanel for "jpg" file type.  If user selecta a file, closure is invoked with image from specified URL.
     static func openFileImage(block: @escaping ImageClosure ) {
         CocoaSpellBook.openFileURL(type: "jpg") { url in
             guard let image = NSImage(contentsOf: url) else { return }
             
             block(image)
+       }
+    }
+
+    /// Invokes OpenPanel for "json" file type.  If user selecta a file, closure is invoked with dictionary from specified URL.
+    static func openFileJSON(type: String = "json", block: @escaping SwiftSpellBook.DictionaryClosure ) {
+        CocoaSpellBook.openFileData(type: type) { data in
+            guard let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? SwiftSpellBook.StandardDictionary else { return }
+            
+            block(dict)
+       }
+    }
+
+    /// Invokes OpenPanel for "plist" file type.  If user selecta a file, closure is invoked with dictionary from specified URL.
+    static func openFilePList(type: String = "plist", block: @escaping SwiftSpellBook.DictionaryClosure ) {
+        CocoaSpellBook.openFileData(type: type) { data in
+            guard let  dict = try! PropertyListSerialization.propertyList(from: data, options: .mutableContainersAndLeaves, format: nil) as? [String : AnyObject] else { return }
+
+            block(dict)
        }
     }
 
