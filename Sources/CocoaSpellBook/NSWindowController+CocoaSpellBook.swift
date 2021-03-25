@@ -16,7 +16,7 @@ import Foundation
 public extension NSWindowController {
 
     /// Hide the window of controller by ordering it out.
-    func hideWindow(_ sender: Any?) {
+    func spellHideWindow(_ sender: Any?) {
         window?.orderOut(sender)
     }
 

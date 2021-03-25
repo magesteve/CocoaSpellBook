@@ -18,7 +18,7 @@ public extension NSViewController {
     // MARK: - Functions
 
     /// Wrap the view controller into a Window, and wrap the window into a windowcontroller (that is returend. Title can be set.  The window can have/not have the buttons to control closing or resizing.
-    func wrapWindowController(title: String?, resizeable: Bool = false, closeable: Bool = false) -> NSWindowController {
+    func spellWrapWindowController(title: String?, resizeable: Bool = false, closeable: Bool = false) -> NSWindowController {
         let w = NSWindow(contentViewController: self)
         let wc = NSWindowController(window:w)
         
@@ -45,7 +45,7 @@ public extension NSViewController {
 
     /// Action to dismiss Modal with OK condition
     /// - Parameter sender: Object that invoked the function
-    @IBAction func modalOkAction(_ sender: Any) {
+    @IBAction func spellModalOkAction(_ sender: Any) {
         if let _ = NSApplication.shared.modalWindow {
             NSApplication.shared.stopModal(withCode: .OK)
         }
@@ -58,7 +58,7 @@ public extension NSViewController {
 
     /// Action to dismiss Modal with Cancel condition
     /// - Parameter sender: Object that invoked the function
-    @IBAction func modalCancelAction(_ sender: Any) {
+    @IBAction func spellModalCancelAction(_ sender: Any) {
         if let _ = NSApplication.shared.modalWindow {
             NSApplication.shared.stopModal(withCode: .cancel)
         }
